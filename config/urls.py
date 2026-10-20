@@ -21,7 +21,8 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('campanhas', include('campanhas.urls')),
     path('locais/', include('locais.urls')),
-    path('usuarios', include('usuarios.urls')),
-    path('vacinas', include('vacinas.urls')),
+    path('usuarios/', include('usuarios.urls')),
+    path('vacinas/', include('vacinas.urls')),
+    path('', include('web.urls')),
 
 ]

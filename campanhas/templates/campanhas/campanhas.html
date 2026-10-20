@@ -1,0 +1,167 @@
+mkdir SaudeConectadaNovo{% extends 'base.html' %}
+
+{% block title %} Campanhas | Saúde Conectada {% endblock %}
+
+{% block content %}
+<section class="pagina">
+  <!-- Cabeçalho da página -->
+  <div class="titulo-pagina">
+    <div>
+      <h1>Campanhas de vacinação</h1>
+      <p> Confira as campanhas de vacinação disponíveis e acompanhe suas informações. </p>
+    </div>
+    <a href="{% url 'campanhas:campanha_create' %}" class="botao"> + Cadastrar campanha </a>
+  </div>
+
+  <!-- Barra de Filtros e Busca -->
+  <div style="margin-top: 25px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px;">
+    <!-- Filtro de Tipo -->
+    <div>
+      <select id="filtroStatus" style="padding: 10px 15px; font-family: sans-serif; font-size: 14px; border: 1px solid #ccc; border-radius: 6px; background-color: #ffffff; color: #1a1e21; outline: none; min-width: 200px;">
+        <option value="todos">Todas as campanhas</option>
+        <option value="ativas">Campanhas Ativas</option>
+        <option value="encerradas">Campanhas Encerradas</option>
+      </select>
+    </div>
+
+    <!-- Campo de Busca e Botão Limpar -->
+    <div style="display: flex; align-items: center; gap: 10px;">
+      <input type="text" id="campoBusca" placeholder="Buscar campanha" style="padding: 10px 15px; font-family: sans-serif; font-size: 14px; border: 1px solid #ccc; border-radius: 6px; width: 250px; outline: none;">
+      <button type="button" id="btnLimpar" style="padding: 10px 20px; font-family: sans-serif; font-size: 14px; font-weight: 500; background-color: #1a5c38; color: #ffffff; border: none; border-radius: 6px; cursor: pointer;">
+        Limpar
+      </button>
+    </div>
+  </div>
+
+  <!-- Lista de campanhas em Tabela Estilizada -->
+  <div style="margin-top: 20px; overflow-x: auto; background: rgb(255 255 255); padding: 15px; border-radius: 8px;">
+    <table style="width: 100%; border-collapse: collapse; min-width: 600px; font-family: sans-serif; font-size: 14px;">
+      <thead>
+        <tr style="background-color: #111a2e; color: #ffffff; text-align: left; border-bottom: 2px solid #0a1120;">
+          <th style="padding: 14px 16px; font-weight: bold; letter-spacing: 0.5px;">VACINA / CAMPANHA</th>
+          <th style="padding: 14px 16px; font-weight: bold; letter-spacing: 0.5px;">FABRICANTE / DESCRIÇÃO</th>
+          <th style="padding: 14px 16px; font-weight: bold; letter-spacing: 0.5px;">DATA INÍCIO</th>
+          <th style="padding: 14px 16px; font-weight: bold; letter-spacing: 0.5px;">DATA ENCERRAMENTO</th>
+          <th style="padding: 14px 16px; font-weight: bold; letter-spacing: 0.5px; text-align: center;">AÇÕES</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for campanha in campanhas %}
+        <tr class="linha-campanha"
+            data-fim="{{ campanha.data_fim|date:'Y-m-d' }}"
+            style="border-bottom: 1px solid rgba(0, 0, 0, 0.1); background-color: rgb(255 255 255);">
+          <td class="coluna-nome" style="padding: 14px 16px; color: #1a1e21; font-weight: 600; text-transform: uppercase;">{{ campanha.nome }}</td>
+          <td style="padding: 14px 16px; color: #495057;">{{ campanha.descricao }}</td>
+          <td style="padding: 14px 16px; color: #495057;">{{ campanha.data_inicio|date:"d/m/Y" }}</td>
+          <td style="padding: 14px 16px; color: #495057;">{{ campanha.data_fim|date:"d/m/Y" }}</td>
+
+          <!-- Coluna de Ações Corrigida para Verde Escuro Padrão -->
+          <td style="padding: 14px 16px; text-align: center; white-space: nowrap;">
+            <!-- Botão Visualizar -->
+            <a href="{% url 'campanhas:campanha_detail' campanha.id %}" style="display: inline-flex; align-items: center; justify-content: center; background-color: #1a5c38; width: 34px; height: 34px; border-radius: 6px; margin-right: 8px; text-decoration: none;" title="Visualizar">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                <circle cx="12" cy="12" r="3"></circle>
+              </svg>
+            </a>
+
+            <!-- Botão Editar -->
+            <a href="{% url 'campanhas:campanha_update' campanha.id %}" style="display: inline-flex; align-items: center; justify-content: center; background-color: #1a5c38; width: 34px; height: 34px; border-radius: 6px; margin-right: 8px; text-decoration: none;" title="Editar">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                <path d="M18.5 2.5a2.121 2.121 0 1 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+              </svg>
+            </a>
+
+            <!-- Botão Excluir -->
+            <a href="{% url 'campanhas:campanha_delete' campanha.id %}" style="display: inline-flex; align-items: center; justify-content: center; background-color: #1a5c38; width: 34px; height: 34px; border-radius: 6px; text-decoration: none;" title="Excluir">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="3 6 5 6 21 6"></polyline>
+                <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                <line x1="10" y1="11" x2="10" y2="17"></line>
+                <line x1="14" y1="11" x2="14" y2="17"></line>
+              </svg>
+            </a>
+          </td>
+        </tr>
+        {% empty %}
+        <tr style="background-color: rgb(255 255 255);">
+          <td colspan="5" style="text-align: center; padding: 30px;">
+            <strong style="color: #1a1e21; font-size: 16px;">Nenhuma campanha cadastrada</strong><br>
+            <span style="color: #6c757d;">No momento, não existem campanhas de vacinação disponíveis.</span>
+          </td>
+        </tr>
+        {% endfor %}
+
+        <!-- Mensagem caso a busca digitada não encontre nada -->
+        <tr id="semResultados" style="background-color: rgb(255 255 255); display: none;">
+          <td colspan="5" style="text-align: center; padding: 30px;">
+            <strong style="color: #1a1e21; font-size: 16px;">Nenhum resultado encontrado</strong><br>
+            <span style="color: #6c757d;">Tente mudar os termos da sua busca.</span>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- Script JavaScript de Filtragem em Tempo Real -->
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const campoBusca = document.getElementById('campoBusca');
+    const filtroStatus = document.getElementById('filtroStatus');
+    const btnLimpar = document.getElementById('btnLimpar');
+    const linhas = document.querySelectorAll('.linha-campanha');
+    const semResultados = document.getElementById('semResultados');
+
+    function filtrarTabela() {
+      const termoBusca = campoBusca.value.toLowerCase().trim();
+      const statusSelecionado = filtroStatus.value;
+
+      // Obtém a data de hoje formatada em AAAA-MM-DD
+      const hoje = new Date().toISOString().split('T')[0];
+      let linhasVisiveis = 0;
+
+      linhas.forEach(linha => {
+        const nomeCampanha = linha.querySelector('.coluna-nome').textContent.toLowerCase();
+        const dataFim = linha.getAttribute('data-fim');
+
+        // Validação do texto buscado
+        const correspondeBusca = nomeCampanha.includes(termoBusca);
+
+        // Validação do status (Ativas vs Encerradas baseado na data final)
+        let correspondeStatus = true;
+        if (statusSelecionado === 'ativas') {
+          correspondeStatus = (dataFim >= hoje);
+        } else if (statusSelecionado === 'encerradas') {
+          correspondeStatus = (dataFim < hoje);
+        }
+
+        // Exibe ou oculta a linha da tabela
+        if (correspondeBusca && correspondeStatus) {
+          linha.style.display = '';
+          linhasVisiveis++;
+        } else {
+          linha.style.display = 'none';
+        }
+      });
+
+      // Se houver campanhas cadastradas mas o filtro zerar tudo, mostra o aviso "Nenhum resultado"
+      if (linhas.length > 0) {
+        semResultados.style.display = (linhasVisiveis === 0) ? '' : 'none';
+      }
+    }
+
+    // Monitora as ações do usuário em tempo real
+    campoBusca.addEventListener('input', filtrarTabela);
+    filtroStatus.addEventListener('change', filtrarTabela);
+
+    // Reseta todos os campos ao clicar em limpar
+    btnLimpar.addEventListener('click', function() {
+      campoBusca.value = '';
+      filtroStatus.value = 'todos';
+      filtrarTabela();
+    });
+  });
+</script>
+{% endblock %}

@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Vacinas | Saúde Conectada
+{% endblock %}
+
+{% block content %}
+
+<section class="pagina">
+
+    <div class="titulo-pagina">
+
+        <div>
+            <h1>Vacinas</h1>
+
+            <p>
+                Consulte as vacinas cadastradas no sistema.
+            </p>
+        </div>
+
+        <a href="{% url 'admin:index' %}" class="botao">
+            Cadastrar vacina
+        </a>
+
+    </div>
+
+
+</section>
+
+{% endblock %}

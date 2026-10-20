@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% block title %} Salvar Campanha | Saúde Conectada {% endblock %}
+
+{% block content %}
+<section class="pagina" style="padding: 20px; max-width: 600px; margin: 0 auto;">
+    <div class="titulo-pagina">
+        <h1>{% if view.kwargs.pk %}Editar{% else %}Cadastrar{% endif %} Campanha</h1>
+    </div>
+
+    <div style="background: rgba(255, 255, 255, 0.8); padding: 20px; border-radius: 8px; margin-top: 20px;">
+        <form method="post" style="display: flex; flex-direction: column; gap: 15px;">
+            {% csrf_token %}
+            {{ form.as_p }}
+            </form>
+
+<div style="margin-top: 10px; display: flex; gap: 10px; align-items: center;">
+<div style="margin-top: 10px; display: flex; gap: 10px; align-items: stretch;">
+<div style="margin-top: 10px; font-size: 0;">
+    <!-- Botão Salvar -->
+    <button type="submit" class="botao" style="background-color: #1a5c38; color: white; padding: 0; border: none; border-radius: 6px; cursor: pointer; font-family: sans-serif; font-size: 14px; text-align: center; width: 100px; height: 38px; box-sizing: border-box; display: inline-block; vertical-align: middle; margin-right: 10px; line-height: 38px;">
+        Salvar
+    </button>
+    <!-- Botão Cancelar -->
+    <a href="{% url 'campanhas:campanhas' %}" style="background-color: #6c757d; color: white; padding: 0; border: none; border-radius: 6px; cursor: pointer; font-family: sans-serif; font-size: 14px; text-align: center; text-decoration: none; width: 100px; height: 38px; box-sizing: border-box; display: inline-block; vertical-align: middle; line-height: 38px;">
+        Cancelar
+    </a>
+</div>
+
+    </a>
+</div>
+
+    </a>
+</div>
+
+    </a>
+
+
+                </a>
+            </div>
+        </form>
+    </div>
+</section>
+{% endblock %}

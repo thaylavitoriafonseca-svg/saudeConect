@@ -10,28 +10,7 @@
         </a>
     </div>
 
-<!-- Cartões informativos de vacinas -->
-<div class="resumo-vacinas">
 
-    <div class="cartao-resumo-vacinas">
-        <i class="bi bi-eyedropper"></i>
-        <h2 id="totalVacinas">{% if is_paginated %}{{ page_obj.paginator.count }}{% else %}{{ vacinas|length }}{% endif %}</h2>
-        <p>Vacinas cadastradas</p>
-    </div>
-
-    <div class="cartao-resumo-vacinas">
-        <i class="bi bi-building"></i>
-        <h2 id="totalFabricantes">0</h2>
-        <p>Fabricantes diferentes</p>
-    </div>
-
-    <div class="cartao-resumo-vacinas">
-        <i class="bi bi-list-ul"></i>
-        <h2 id="totalTiposDose">0</h2>
-        <p>Tipos de dose diferentes</p>
-    </div>
-
-</div>
 
 <!-- Pesquisa de vacinas -->
 <div class="pesquisa-vacinas">

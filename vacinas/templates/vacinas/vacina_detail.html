@@ -1,3 +1,4 @@
+
 {% extends 'base.html' %}
 
 {% block title %}
@@ -6,50 +7,159 @@
 
 {% block content %}
 
-<section class="pagina">
+<section class="detalhes-vacina">
 
-    <h1>
-        {{ vacina.nome }}
-    </h1>
+    <h1>{{ vacina.nome }}</h1>
+    <p class="subtitulo-vacina">
+        Informações completas sobre a vacina
+    </p>
 
-    <div class="card">
+    <div class="card-detalhes">
 
-        <p>
-            <strong>Fabricante:</strong>
-            {{ vacina.fabricante }}
-        </p>
+        <div class="info-vacina">
 
-        <p>
-            <strong>Lote:</strong>
-            {{ vacina.lote }}
-        </p>
+            <div class="info-item">
+                <strong>Fabricante</strong>
+                {{ vacina.fabricante|default:"Não informado" }}
+            </div>
 
-        <p>
-            <strong>Tipo de dose:</strong>
-            {{ vacina.tipo_dose }}
-        </p>
+            <div class="info-item">
+                <strong>Lote</strong>
+                {{ vacina.lote|default:"Não informado" }}
+            </div>
 
-        <p>
-            <strong>Descrição:</strong>
-            {{ vacina.descricao }}
-        </p>
+            <div class="info-item">
+                <strong>Tipo de dose</strong>
+                {{ vacina.tipo_dose|default:"Não informado" }}
+            </div>
 
-        <br>
+            <div class="info-item descricao-vacina">
+                <strong>Descrição</strong>
+                {{ vacina.descricao|default:"Nenhuma descrição cadastrada."|linebreaksbr }}
+            </div>
 
-        <a href="{% url 'vacinas:vacina_update' vacina.pk %}" class="botao">
-            Editar
-        </a>
+        </div>
 
-        <a href="{% url 'vacinas:vacina_delete' vacina.pk %}" class="botao">
-            Excluir
-        </a>
+        <div class="acoes-vacina">
 
-        <a href="{% url 'vacinas:vacinas' %}" class="botao">
-            Voltar
-        </a>
+            <a href="{% url 'vacinas:vacina_update' vacina.pk %}">
+                Editar
+            </a>
+
+            <a href="{% url 'vacinas:vacina_delete' vacina.pk %}" class="excluir">
+                Excluir
+            </a>
+
+            <a href="{% url 'vacinas:vacinas' %}" class="voltar">
+                Voltar
+            </a>
+
+        </div>
 
     </div>
 
 </section>
+
+<style>
+    .detalhes-vacina {
+        max-width: 850px;
+        margin: 30px auto;
+        padding: 0 20px;
+    }
+
+    .detalhes-vacina h1 {
+        color: #306d49;
+        font-size: 30px;
+        margin-bottom: 8px;
+    }
+
+    .subtitulo-vacina {
+        color: #52645a;
+        margin-bottom: 22px;
+    }
+
+    .card-detalhes {
+        background: white;
+        padding: 30px;
+        border-radius: 12px;
+        box-shadow: 0 4px 12px #00000014;
+    }
+
+    .info-vacina {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 15px;
+    }
+
+    .info-item {
+        background: #f4f8f5;
+        padding: 15px;
+        border-radius: 8px;
+        overflow-wrap: anywhere;
+    }
+
+    .info-item strong {
+        display: block;
+        color: #306d49;
+        margin-bottom: 7px;
+    }
+
+    .descricao-vacina,
+    .info-item:nth-child(3) {
+        grid-column: 1 / -1;
+    }
+
+    .acoes-vacina {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-top: 25px;
+    }
+
+    .acoes-vacina a {
+        padding: 10px 20px;
+        border-radius: 7px;
+        text-decoration: none;
+        text-align: center;
+        color: white;
+        background: #306d49;
+    }
+
+    .acoes-vacina a:hover {
+        opacity: .85;
+    }
+
+    .acoes-vacina .excluir {
+        background: #b83b3b;
+    }
+
+    .acoes-vacina .voltar {
+        background: #e5f3e9;
+        color: #306d49;
+    }
+
+    @media (max-width: 600px) {
+        .detalhes-vacina {
+            margin: 20px auto;
+            padding: 0 14px;
+        }
+
+        .detalhes-vacina h1 {
+            font-size: 25px;
+        }
+
+        .card-detalhes {
+            padding: 18px;
+        }
+
+        .info-vacina {
+            grid-template-columns: 1fr;
+        }
+
+        .acoes-vacina a {
+            flex: 1;
+        }
+    }
+</style>
 
 {% endblock %}

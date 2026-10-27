@@ -5,13 +5,17 @@
 
 <section class="pagina">
     <div class="titulo-pagina">
+    <div>
         <h1>Vacinas</h1>
-        <a href="{% url 'vacinas:vacina_create' %}" class="btn-novo">
-            Cadastrar Vacina
-        </a>
+        <p class="subtitulo-vacinas">
+            Consulte e gerencie as vacinas cadastradas.
+        </p>
     </div>
 
-<!-- Cartões informativos de vacinas -->
+    <a href="{% url 'vacinas:vacina_create' %}" class="btn-novo">
+        Cadastrar Vacina
+    </a>
+</div>
 
 
 <!-- Pesquisa de vacinas -->
@@ -52,7 +56,6 @@
                     <th>Fabricante</th>
                     <th>Lote</th>
                     <th>Tipo de Dose</th>
-                    <th>Descrição</th>
                     <th class="col-acoes">Ações</th>
                 </tr>
             </thead>
@@ -63,7 +66,6 @@
                         <td>{{ vacina.fabricante }}</td>
                         <td>{{ vacina.lote }}</td>
                         <td>{{ vacina.tipo_dose }}</td>
-                        <td>{{ vacina.descricao|default:"-" }}</td>
                         <td class="col-acoes">
                             <a href="{% url 'vacinas:vacina_detail' vacina.pk %}" class="btn-acao btn-detalhes" title="Ver detalhes">
                                 <i class="bi bi-eye"></i></a>
@@ -267,23 +269,36 @@
         flex-shrink: 0;
     }
 
-    .tabela-container {
-        width: 100%;
-        max-width: 100%;
-        overflow-x: auto;
-        margin: 12px 0;
-        border-radius: 8px;
-    }
 
-    .tabela-vacinas {
-        min-width: 650px;
-        font-size: 12px;
-    }
+.tabela-container {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    overflow-x: auto;
+    overflow-y: hidden;
+    margin: 12px 0;
+    border-radius: 8px;
+    box-sizing: border-box;
+    -webkit-overflow-scrolling: touch;
+}
 
-    .tabela-vacinas th,
-    .tabela-vacinas td {
-        padding: 10px 8px;
-    }
+.tabela-vacinas {
+    width: 650px;
+    min-width: 650px;
+    table-layout: auto;
+}
+
+.tabela-vacinas th,
+.tabela-vacinas td {
+    padding: 10px 8px;
+    white-space: normal;
+    overflow-wrap: break-word;
+}
+
+.tabela-vacinas .col-acoes {
+    white-space: nowrap;
+}
+
 }
 </style>
 
@@ -355,6 +370,5 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 });
 </script>
-
 
 {% endblock %}

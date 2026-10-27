@@ -1,12 +1,12 @@
 {% extends 'base.html' %}
 
 {% block title %}
-Cadastrar vacina | Saúde Conectada
+Vacinas | Saúde Conectada
 {% endblock %}
 
 {% block content %}
 
-<section class="pagina">
+<section class="pagina formulario-vacina">
 
     <h1>
         {% if object %}
@@ -16,22 +16,92 @@ Cadastrar vacina | Saúde Conectada
         {% endif %}
     </h1>
 
-    <form method="post">
+    <p class="subtitulo">
+        Preencha os dados da vacina abaixo.
+    </p>
 
+    <form method="post" class="card-formulario">
         {% csrf_token %}
 
         {{ form.as_p }}
 
-        <button type="submit">
-            Salvar
-        </button>
-
-        <a href="{% url 'vacinas:vacinas' %}">
-            Cancelar
-        </a>
-
+        <div class="acoes-formulario">
+            <button type="submit">Salvar</button>
+            <a href="{% url 'vacinas:vacinas' %}">Cancelar</a>
+        </div>
     </form>
 
 </section>
+
+<style>
+.formulario-vacina {
+    max-width: 650px;
+    margin: 25px auto;
+    padding: 0 20px;
+}
+
+.subtitulo {
+    margin-bottom: 16px;
+}
+
+.card-formulario {
+    padding: 24px;
+}
+
+.card-formulario p {
+    margin-bottom: 12px;
+}
+
+.card-formulario input,
+.card-formulario textarea,
+.card-formulario select {
+    padding: 9px 10px;
+}
+
+.card-formulario textarea {
+    min-height: 90px;
+    resize: none;
+}
+
+.acoes-formulario {
+    margin-top: 16px;
+}
+
+.acoes-formulario button,
+.acoes-formulario a {
+    padding: 11px 20px;
+    border: none;
+    border-radius: 6px;
+    text-decoration: none;
+    text-align: center;
+    cursor: pointer;
+}
+
+.acoes-formulario button {
+    background: #306d49;
+    color: white;
+    flex: 1;
+}
+
+.acoes-formulario a {
+    background: #e5f3e9;
+    color: #306d49;
+}
+
+@media (max-width: 600px) {
+    .formulario-vacina {
+        margin: 22px auto;
+        padding: 0 14px;
+    }
+
+    .card-formulario {
+        padding: 18px;
+    }
+
+    .acoes-formulario {
+        flex-direction: column;
+    }
+}
+</style>
 
 {% endblock %}

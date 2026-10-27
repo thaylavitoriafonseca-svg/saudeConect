@@ -1,5 +1,6 @@
-{% extends 'base.html' %}
+{% extends 'principal/base_site.html' %}
 
+{% load static %}
 {% block title %}
 Saúde Conectada | Início
 {% endblock %}
@@ -8,10 +9,10 @@ Saúde Conectada | Início
 
 <section class="hero">
 
-    <div class="hero-conteudo">
-
+    <div class="container d-flex flex-column flex-md-row align-items-center justify-content-between gap-4 py-5">
+        <div class="w-100 w-md-50">
         <h1>
-            Saúde Conectada
+            Nossos Serviço
         </h1>
 
         <h2>
@@ -19,14 +20,22 @@ Saúde Conectada | Início
         </h2>
 
         <p>
-            Encontre informações sobre vacinas, campanhas
-            de vacinação e locais disponíveis para atendimento,
-            inclusive em regiões mais distantes.
+            serviços de vacinação com qualidade,
+            segurança e cuidado, contribuindo para a
+            prevenção de doenças e a promoção da saúde
+            em todas as fases da vida!
         </p>
 
         <a href="#servicos" class="botao">
-            Conheça o sistema
+            Ver mais informações
         </a>
+
+        </div>
+        <div class="w-100 text-center">
+            <img class="img_home img-fluid" src="{% static 'imagem/vacina.jpg' %}">
+        </div>
+
+
 
     </div>
 
@@ -90,17 +99,13 @@ Saúde Conectada | Início
 <section class="chamada">
 
     <h2>
-        Informação também é prevenção
+        Cuide da sua saúde!
     </h2>
 
     <p>
-        Consulte as informações disponíveis e mantenha-se
-        informado sobre vacinação.
+        Mantenha suas vacinas em dia e proteja você e sua família.
+        Estamos aqui para cuidar de você com segurança e atenção!
     </p>
-
-    <a href="{% url 'vacinas:vacinas' %}" class="botao">
-        Ver informações
-    </a>
 
 </section>
 

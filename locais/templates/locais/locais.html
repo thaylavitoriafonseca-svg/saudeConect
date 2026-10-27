@@ -1,72 +1,241 @@
+
 {% extends 'base.html' %}
 
-
-{% block title %}
-Locais | Saúde Conectada
-{% endblock %}
-
+{% block title %}Locais | Saúde Conectada{% endblock %}
 
 {% block content %}
 
-<section class="pagina">
+<style>
+    .locais-pagina {
+        background: #c6f4d6;
+        min-height: 100vh;
+        padding: 40px 6%;
+    }
 
-    <div class="titulo-pagina">
+    .cabecalho {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 15px;
+        margin-bottom: 20px;
+    }
 
-        <div>
+    .cabecalho h1 {
+        color: #2d6a4f;
+        font-weight: bold;
+    }
 
-            <h1>
-                Locais de vacinação
-            </h1>
+    .botao {
+        background: #2d6a4f;
+        color: white;
+        border: none;
+        padding: 10px 18px;
+        border-radius: 6px;
+        text-decoration: none;
+        cursor: pointer;
+    }
 
-            <p>
-                Consulte os locais onde a vacinação está disponível.
-            </p>
+    .filtros {
+        display: flex;
+        justify-content: space-between;
+        gap: 12px;
+        flex-wrap: wrap;
+        margin-bottom: 16px;
+    }
 
-        </div>
+    .filtros select,
+    .filtros input {
+        background: white;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        padding: 10px;
+    }
 
+    .busca {
+        display: flex;
+        gap: 8px;
+    }
 
-        <a href="{% url 'admin:index' %}"
-           class="botao">
+    .tabela-container {
+        overflow-x: auto;
+        background: white;
+        border-radius: 9px;
+    }
 
-            Cadastrar local
+    .tabela-locais {
+        width: 100%;
+        border-collapse: collapse;
+    }
 
+    .tabela-locais th {
+        background: #111827;
+        color: white;
+        padding: 15px;
+        text-align: left;
+    }
+
+    .tabela-locais td {
+        padding: 14px;
+        border-bottom: 1px solid #eee;
+    }
+
+    .acoes {
+        display: flex;
+        justify-content: center;
+        gap: 7px;
+    }
+
+    .icone {
+        width: 32px;
+        height: 32px;
+        display: inline-flex;
+        justify-content: center;
+        align-items: center;
+        color: white;
+        background: #2d6a4f;
+        border-radius: 4px;
+        text-decoration: none;
+        border: none;
+        cursor: pointer;
+    }
+
+    .icone:hover, .botao:hover {
+        background: #1b4332;
+        color: white;
+    }
+
+    @media (max-width: 600px) {
+        .cabecalho, .filtros {
+            align-items: stretch;
+            flex-direction: column;
+        }
+
+        .busca input {
+            min-width: 0;
+            width: 100%;
+        }
+    }
+</style>
+
+<section class="locais-pagina">
+
+    <div class="cabecalho">
+        <h1>Locais</h1>
+
+        <a href="{% url 'locais:cadastrar_local' %}" class="botao">
+            Cadastrar Local
         </a>
-
     </div>
 
+    <div class="filtros">
+        <select id="filtroCidade" onchange="filtrarLocais()">
+            <option value="">Todos os tipos de locais</option>
 
-    <div class="cards">
+            {% for cidade in cidades %}
+                <option value="{{ cidade|lower }}">{{ cidade }}</option>
+            {% endfor %}
+        </select>
 
-        {% for local in locais %}
+        <div class="busca">
+            <input type="text" id="buscaLocal"
+                   placeholder="Buscar local"
+                   oninput="filtrarLocais()">
 
-            <div class="card">
+            <button type="button" class="botao"
+                    onclick="limparFiltros()">
+                Limpar
+            </button>
+        </div>
+    </div>
 
-                <h3>
-                    {{ local.nome }}
-                </h3>
+    <div class="tabela-container">
+        <table class="tabela-locais">
+            <thead>
+                <tr>
+                    <th>NOME</th>
+                    <th>ENDEREÇO</th>
+                    <th>CIDADE</th>
+                    <th style="text-align:center;">AÇÕES</th>
+                </tr>
+            </thead>
 
-                <p>
-                    <strong>Endereço:</strong>
-                    {{ local.endereco }}
-                </p>
+            <tbody>
+                {% for local in locais %}
+                <tr class="linha-local"
+                    data-cidade="{{ local.cidade|lower }}">
 
-                <p>
-                    <strong>Cidade:</strong>
-                    {{ local.cidade }}
-                </p>
+                    <td>{{ local.nome }}</td>
+                    <td>{{ local.endereco }}</td>
+                    <td>{{ local.cidade }}</td>
 
-            </div>
+                    <td>
+                        <div class="acoes">
+                            <a href="{% url 'locais:detalhes_local' local.pk %}"
+                               class="icone" title="Ver detalhes">
+                                <i class="bi bi-eye-fill"></i>
+                            </a>
 
-        {% empty %}
+                            <a href="{% url 'locais:editar_local' local.pk %}"
+                               class="icone" title="Editar">
+                                <i class="bi bi-pencil-square"></i>
+                            </a>
 
-            <p>
-                Nenhum local cadastrado.
-            </p>
+                            <a href="{% url 'locais:excluir_local' local.pk %}"
+                               class="icone" title="Excluir">
+                                <i class="bi bi-trash-fill"></i>
+                            </a>
+                        </div>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="4" style="text-align:center;">
+                        Nenhum local cadastrado.
+                    </td>
+                </tr>
+                {% endfor %}
 
-        {% endfor %}
-
+                <tr id="semResultado" style="display:none;">
+                    <td colspan="4" style="text-align:center;">
+                        Nenhum local encontrado.
+                    </td>
+                </tr>
+            </tbody>
+        </table>
     </div>
 
 </section>
+
+<script>
+function filtrarLocais() {
+    const cidade = document.getElementById('filtroCidade').value;
+    const busca = document.getElementById('buscaLocal').value
+        .trim().toLowerCase();
+
+    let encontrados = 0;
+
+    document.querySelectorAll('.linha-local').forEach(linha => {
+        const texto = linha.textContent.toLowerCase();
+        const cidadeLocal = linha.dataset.cidade;
+
+        const mostrar =
+            (!cidade || cidadeLocal === cidade) &&
+            texto.includes(busca);
+
+        linha.style.display = mostrar ? '' : 'none';
+
+        if (mostrar) encontrados++;
+    });
+
+    document.getElementById('semResultado').style.display =
+        encontrados === 0 ? '' : 'none';
+}
+
+function limparFiltros() {
+    document.getElementById('filtroCidade').value = '';
+    document.getElementById('buscaLocal').value = '';
+    filtrarLocais();
+}
+</script>
 
 {% endblock %}

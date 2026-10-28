@@ -60,35 +60,61 @@
                 </tr>
             </thead>
             <tbody>
-                {% for vacina in vacinas %}
-                    <tr>
-                        <td class="col-nome">{{ vacina.nome }}</td>
-                        <td>{{ vacina.fabricante }}</td>
-                        <td>{{ vacina.lote }}</td>
-                        <td>{{ vacina.tipo_dose }}</td>
-                        <td class="col-acoes">
-                            <a href="{% url 'vacinas:vacina_detail' vacina.pk %}" class="btn-acao btn-detalhes" title="Ver detalhes">
-                                <i class="bi bi-eye"></i></a>
-                            <a href="{% url 'vacinas:vacina_update' vacina.pk %}" class="btn-acao btn-editar" title="Editar">
-                                <i class="bi bi-pencil-square"></i></a>
-                            <a href="{% url 'vacinas:vacina_delete' vacina.pk %}" class="btn-acao btn-excluir" title="Excluir">
-                                <i class="bi bi-trash3"></i></a>
-                        </td>
-                    </tr>
-                {% empty %}
-                    <tr>
-                        <td colspan="6" class="sem-registros">
-                            Nenhuma vacina cadastrada.
-                        </td>
-                    </tr>
-                {% endfor %}
+
+{% for vacina in vacinas %}
+    <tr>
+        <td class="col-nome" data-label="Vacina">
+            {{ vacina.nome }}
+        </td>
+
+        <td data-label="Fabricante">
+            {{ vacina.fabricante }}
+        </td>
+
+        <td data-label="Lote">
+            {{ vacina.lote }}
+        </td>
+
+        <td data-label="Tipo de Dose">
+            {{ vacina.tipo_dose }}
+        </td>
+
+        <td class="col-acoes" data-label="Ações">
+            <div class="grupo-acoes">
+                <a href="{% url 'vacinas:vacina_detail' vacina.pk %}"
+                   class="btn-acao btn-detalhes"
+                   title="Ver detalhes">
+                    <i class="bi bi-eye"></i>
+                </a>
+
+                <a href="{% url 'vacinas:vacina_update' vacina.pk %}"
+                   class="btn-acao btn-editar"
+                   title="Editar">
+                    <i class="bi bi-pencil-square"></i>
+                </a>
+
+                <a href="{% url 'vacinas:vacina_delete' vacina.pk %}"
+                   class="btn-acao btn-excluir"
+                   title="Excluir">
+                    <i class="bi bi-trash3"></i>
+                </a>
+            </div>
+        </td>
+    </tr>
+{% empty %}
+    <tr>
+        <td colspan="5" class="sem-registros">
+            Nenhuma vacina cadastrada.
+        </td>
+    </tr>
+{% endfor %}
+
             </tbody>
         </table>
     </div>
 
 
 </section>
-
 <style>
 .resumo-vacinas {
     display: grid;
@@ -196,6 +222,15 @@
     cursor: pointer;
 }
 
+/* Ajustes para tablets */
+@media (min-width: 651px) and (max-width: 1000px) {
+    .pesquisa-vacinas,
+    .tabela-container {
+        width: calc(100% - 48px);
+    }
+}
+
+
 @media (max-width: 650px) {
     .pagina {
         padding: 18px 14px;
@@ -221,24 +256,12 @@
         text-align: center;
     }
 
-    .resumo-vacinas {
-        width: 100% !important;
-        grid-template-columns: 1fr;
-        gap: 10px;
-        margin: 16px 0;
-    }
-
-    .cartao-resumo-vacinas {
-        width: 100%;
-        min-height: auto;
-        padding: 14px 16px;
-    }
-
+    /* Filtros */
     .pesquisa-vacinas {
         flex-direction: column;
         align-items: stretch;
         gap: 10px;
-        width: 100% !important;
+        width: 100%;
         margin: 16px 0;
     }
 
@@ -247,7 +270,6 @@
         width: 100%;
         max-width: none;
         min-height: 42px;
-        box-sizing: border-box;
     }
 
     .pesquisa-direita {
@@ -258,47 +280,137 @@
     }
 
     #pesquisaVacinas {
-        flex: 1;
+        flex: 1 1 auto;
         width: 0;
         max-width: none;
-        min-width: 0;
-        box-sizing: border-box;
+        min-height: 42px;
     }
 
     #limparPesquisaVacinas {
-        flex-shrink: 0;
+        min-height: 42px;
+    }
+
+    /* Cartões das vacinas */
+    .tabela-container {
+        width: 100%;
+        margin: 16px 0;
+        overflow: visible;
+        border-radius: 8px;
+    }
+
+    .tabela-vacinas,
+    .tabela-vacinas tbody {
+        display: block;
+        width: 100%;
+    }
+
+    .tabela-vacinas thead {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border: 0;
+    }
+
+    .tabela-vacinas tbody tr:not([hidden]) {
+        display: block;
+        margin-bottom: 14px;
+        padding: 8px 14px;
+        background: #fff;
+        border: 1px solid #e3eee6;
+        border-radius: 10px;
+        box-shadow: 0 2px 7px rgba(38, 53, 45, 0.05);
+    }
+
+    .tabela-vacinas tbody tr[hidden] {
+        display: none !important;
+    }
+
+    /* Rótulos à esquerda e valores à direita */
+    .tabela-vacinas tbody td:not(.col-acoes):not(.sem-registros) {
+        display: grid;
+        grid-template-columns: 105px minmax(0, 1fr);
+        align-items: center;
+        gap: 10px;
+        width: 100%;
+        padding: 10px 0;
+        border-bottom: 1px solid #edf2ee;
+        box-sizing: border-box;
+        font-size: 13px;
+        text-align: left !important;
+        overflow-wrap: anywhere;
+    }
+
+    .tabela-vacinas td:not(.col-acoes)::before {
+        content: attr(data-label);
+        color: #306d49;
+        font-weight: 500;
+        text-align: left;
+    }
+
+    .tabela-vacinas td.col-nome {
+        font-weight: 700;
+    }
+
+    .tabela-vacinas td.col-nome:not(.col-acoes) {
+        font-size: 13px;
+    }
+
+    /* Área dos botões */
+    .tabela-vacinas tbody td.col-acoes {
+        display: block;
+        width: 100%;
+        padding: 12px 0 8px;
+        border: none;
+        text-align: left !important;
+        white-space: normal;
     }
 
 
-.tabela-container {
-    display: block;
-    width: 100%;
-    max-width: 100%;
-    overflow-x: auto;
-    overflow-y: hidden;
-    margin: 12px 0;
-    border-radius: 8px;
-    box-sizing: border-box;
-    -webkit-overflow-scrolling: touch;
-}
 
-.tabela-vacinas {
-    width: 650px;
-    min-width: 650px;
-    table-layout: auto;
-}
 
-.tabela-vacinas th,
-.tabela-vacinas td {
-    padding: 10px 8px;
-    white-space: normal;
-    overflow-wrap: break-word;
-}
 
-.tabela-vacinas .col-acoes {
-    white-space: nowrap;
-}
 
+
+
+
+    .grupo-acoes {
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        gap: 9px;
+    }
+
+    .btn-acao {
+        width: 38px;
+        height: 38px;
+        flex-shrink: 0;
+    }
+
+    /* Mensagem sem registros */
+    .tabela-vacinas tbody tr:has(.sem-registros) {
+        display: block;
+        padding: 12px;
+        background: #fff;
+        border-radius: 8px;
+    }
+
+    .tabela-vacinas .sem-registros {
+        display: block;
+        width: 100%;
+        padding: 12px;
+        border: none;
+        text-align: center !important;
+        box-sizing: border-box;
+    }
+
+    .tabela-vacinas .sem-registros::before {
+        content: none;
+    }
 }
 </style>
 

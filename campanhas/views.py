@@ -29,7 +29,7 @@ class CampanhaCreateView(CreateView):
     model = Campanha
     fields = '__all__'
     template_name = 'campanhas/campanha_form.html'
-    success_url = reverse_lazy('principal:campanhas')
+    success_url = reverse_lazy('campanhas:campanhas')
 
 
 class CampanhaDetailView(DetailView):
@@ -42,11 +42,11 @@ class CampanhaUpdateView(UpdateView):
     model = Campanha
     fields = '__all__'
     template_name = 'campanhas/campanha_form.html'
-    success_url = reverse_lazy('principal:campanhas')
+    success_url = reverse_lazy('campanhas:campanhas')
 
 
 class CampanhaDeleteView(DeleteView):
     model = Campanha
     template_name = 'campanhas/campanha_confirm_delete.html'
-    success_url = reverse_lazy('principal:campanhas')
+    success_url = reverse_lazy('campanhas:campanhas')
 

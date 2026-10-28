@@ -1,0 +1,55 @@
+
+{% extends "base_site.html" %}
+
+{% block title %}Criar conta | Saúde Conectada{% endblock %}
+
+{% block content %}
+<div class="container py-5" style="max-width: 550px;">
+
+    <h1 class="mb-3">Criar conta</h1>
+    <p>Preencha seus dados para acessar o Saúde Conectada.</p>
+
+    <form method="post">
+        {% csrf_token %}
+
+        {{ form.username }}
+
+        {% for field in form %}
+            {% if field.name != "username" %}
+                <div class="mb-3">
+                    <label
+                        for="{{ field.id_for_label }}"
+                        class="form-label"
+                    >
+                        {{ field.label }}
+                    </label>
+
+                    {{ field }}
+
+                    {% for error in field.errors %}
+                        <div class="text-danger small">
+                            {{ error }}
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endfor %}
+
+        {% if form.non_field_errors %}
+            <div class="alert alert-danger">
+                {{ form.non_field_errors }}
+            </div>
+        {% endif %}
+
+        <button type="submit" class="btn btn-primary w-100">
+            Criar minha conta
+        </button>
+    </form>
+
+    <p class="mt-3 text-center">
+        Já tem uma conta?
+        <a href="{% url 'login' %}">Faça login</a>.
+    </p>
+
+</div>
+{% endblock %}

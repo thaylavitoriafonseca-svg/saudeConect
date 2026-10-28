@@ -1,13 +1,9 @@
-from django.urls import path
 
-from web import views
+from django.urls import path
+from . import views
 
 app_name = 'web'
+
 urlpatterns = [
-# Página inicial
-    path(
-        '',
-        views.home,
-        name='home'
-    ),
+    path('', views.home, name='home'),
 ]

@@ -1,7 +1,12 @@
+<<<<<<< HEAD
 {% extends 'base m.html' %}
 
+=======
+>>>>>>> 1559c63cc948f54e62e36cdf7bf282203c4963b8
 
+{% extends 'base_site.html' %}
 {% load static %}
+
 {% block title %}
 Saúde Conectada | Início
 {% endblock %}
@@ -9,105 +14,84 @@ Saúde Conectada | Início
 {% block content %}
 
 <section class="hero">
-
     <div class="container d-flex flex-column flex-md-row align-items-center justify-content-between gap-4 py-5">
+
         <div class="w-100 w-md-50">
-        <h1>
-            Nossos Serviço
-        </h1>
+            <h1>Nossos serviços</h1>
 
-        <h2>
-            Informação sobre vacinação onde você estiver.
-        </h2>
+            <h2>
+                Informação sobre vacinação onde você estiver.
+            </h2>
 
-        <p>
-            serviços de vacinação com qualidade,
-            segurança e cuidado, contribuindo para a
-            prevenção de doenças e a promoção da saúde
-            em todas as fases da vida!
-        </p>
+            <p>
+                Serviços de vacinação com qualidade,
+                segurança e cuidado, contribuindo para a
+                prevenção de doenças e a promoção da saúde
+                em todas as fases da vida!
+            </p>
 
-        <a href="#servicos" class="botao">
-            Ver mais informações
-        </a>
-
+            <a href="#servicos" class="botao">
+                Ver mais informações
+            </a>
         </div>
+
         <div class="w-100 text-center">
-            <img class="img_home img-fluid" src="{% static 'imagem/vacina.jpg' %}">
+            <img
+                class="img_home img-fluid"
+                src="{% static 'imagem/vacina1.jpg' %}"
+                alt="Ilustração relacionada à vacinação"
+            >
         </div>
-
-
 
     </div>
-
 </section>
 
-
 <section class="servicos" id="servicos">
-
-    <h2>
-        O que você encontra aqui?
-    </h2>
+    <h2>O que você encontra aqui?</h2>
 
     <div class="cards">
-
         <div class="card">
-
-            <h3>
-                Vacinas
-            </h3>
-
+            <h3>Vacinas</h3>
             <p>
                 Consulte informações importantes sobre vacinas,
                 doses e orientações.
             </p>
-
+            <a href="{% url 'vacinas:vacinas' %}">
+                Consultar vacinas
+            </a>
         </div>
 
-
         <div class="card">
-
-            <h3>
-                Locais de vacinação
-            </h3>
-
+            <h3>Locais de vacinação</h3>
             <p>
                 Encontre locais disponíveis para vacinação
-                próximos às regiões atendidas.
+                nas regiões atendidas.
             </p>
-
+            <a href="{% url 'locais:locais' %}">
+                Ver locais
+            </a>
         </div>
 
-
         <div class="card">
-
-            <h3>
-                Campanhas
-            </h3>
-
+            <h3>Campanhas</h3>
             <p>
                 Acompanhe campanhas de vacinação e fique
                 informado sobre as ações disponíveis.
             </p>
-
+            <a href="{% url 'campanhas:campanhas' %}">
+                Ver campanhas
+            </a>
         </div>
-
     </div>
-
 </section>
 
-
 <section class="chamada">
-
-    <h2>
-        Cuide da sua saúde!
-    </h2>
+    <h2>Cuide da sua saúde!</h2>
 
     <p>
         Mantenha suas vacinas em dia e proteja você e sua família.
         Estamos aqui para cuidar de você com segurança e atenção!
     </p>
-
 </section>
 
 {% endblock %}

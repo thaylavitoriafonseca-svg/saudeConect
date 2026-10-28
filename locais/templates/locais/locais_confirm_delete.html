@@ -1,0 +1,30 @@
+
+{% extends 'base.html' %}
+
+{% block title %}Excluir Local | Saúde Conectada{% endblock %}
+
+{% block content %}
+<section style="background:#c6f4d6; min-height:100vh; padding:40px 20px;">
+    <div style="background:white; padding:30px; border-radius:10px;
+                max-width:500px; margin:auto;">
+
+        <h1 style="color:#2d6a4f;">Excluir local</h1>
+
+        <p>Deseja realmente excluir <strong>{{ local.nome }}</strong>?</p>
+
+        <form method="post">
+            {% csrf_token %}
+
+            <button type="submit"
+                    style="background:#a52a2a; color:white; border:0;
+                           padding:10px 18px; border-radius:5px;">
+                Confirmar exclusão
+            </button>
+
+            <a href="{% url 'locais:detalhes_local' local.pk %}">
+                Cancelar
+            </a>
+        </form>
+    </div>
+</section>
+{% endblock %}

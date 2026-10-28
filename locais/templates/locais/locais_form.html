@@ -1,0 +1,51 @@
+
+{% extends 'base.html' %}
+
+{% block title %}
+{% if local %}Editar Local{% else %}Cadastrar Local{% endif %}
+| Saúde Conectada
+{% endblock %}
+
+{% block content %}
+
+<section style="background:#c6f4d6; min-height:100vh; padding:40px 20px;">
+    <div style="max-width:600px; margin:auto;">
+
+        <h1 style="color:#2d6a4f; margin-bottom:20px;">
+            {% if local %}Editar Local{% else %}Cadastrar Local{% endif %}
+        </h1>
+
+        <form method="post"
+              style="background:white; padding:30px; border-radius:10px;">
+            {% csrf_token %}
+
+            {% for campo in form %}
+                <div style="margin-bottom:18px;">
+                    <label for="{{ campo.id_for_label }}"
+                           style="display:block; margin-bottom:7px;">
+                        {{ campo.label }}
+                    </label>
+
+                    {{ campo }}
+
+                    {% for erro in campo.errors %}
+                        <p style="color:red;">{{ erro }}</p>
+                    {% endfor %}
+                </div>
+            {% endfor %}
+
+            <button type="submit"
+                    style="background:#2d6a4f; color:white; border:0;
+                           padding:12px; width:100%; border-radius:5px;">
+                Salvar
+            </button>
+
+            <a href="{% if local %}{% url 'locais:detalhes_local' local.pk %}{% else %}{% url 'locais:locais' %}{% endif %}"
+               style="display:block; margin-top:15px; color:#a55b5b;">
+                Cancelar
+            </a>
+        </form>
+    </div>
+</section>
+
+{% endblock %}

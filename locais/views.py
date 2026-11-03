@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib.auth.decorators import login_required
 from .models import LocalVacinacao
 from .forms import LocalForm
 
@@ -15,6 +16,7 @@ def listar_locais(request):
     })
 
 
+@login_required
 def criar_local(request):
     form = LocalForm(request.POST or None)
 
@@ -35,6 +37,7 @@ def detalhes_local(request, pk):
     })
 
 
+@login_required
 def editar_local(request, pk):
     local = get_object_or_404(LocalVacinacao, pk=pk)
     form = LocalForm(request.POST or None, instance=local)
@@ -49,6 +52,7 @@ def editar_local(request, pk):
     })
 
 
+@login_required
 def excluir_local(request, pk):
     local = get_object_or_404(LocalVacinacao, pk=pk)
 

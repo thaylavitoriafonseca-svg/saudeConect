@@ -122,9 +122,11 @@
     <div class="cabecalho">
         <h1>Locais</h1>
 
-        <a href="{% url 'locais:cadastrar_local' %}" class="botao">
+        {% if user.is_authenticated %}
+<a href="{% url 'locais:cadastrar_local' %}" class="botao">
             Cadastrar Local
         </a>
+{% endif %}
     </div>
 
     <div class="filtros">
@@ -175,15 +177,19 @@
                                 <i class="bi bi-eye-fill"></i>
                             </a>
 
-                            <a href="{% url 'locais:editar_local' local.pk %}"
+                            {% if user.is_authenticated %}
+<a href="{% url 'locais:editar_local' local.pk %}"
                                class="icone" title="Editar">
                                 <i class="bi bi-pencil-square"></i>
                             </a>
+{% endif %}
 
-                            <a href="{% url 'locais:excluir_local' local.pk %}"
+                            {% if user.is_authenticated %}
+<a href="{% url 'locais:excluir_local' local.pk %}"
                                class="icone" title="Excluir">
                                 <i class="bi bi-trash-fill"></i>
                             </a>
+{% endif %}
                         </div>
                     </td>
                 </tr>

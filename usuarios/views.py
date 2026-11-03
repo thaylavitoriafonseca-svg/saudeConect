@@ -1,9 +1,11 @@
 
 from django.shortcuts import render, redirect
 from django.contrib import messages
+from django.db import transaction
 from .forms import CadastroForm
 
 
+@transaction.atomic
 def cadastro(request):
     if request.method == "POST":
         form = CadastroForm(request.POST)

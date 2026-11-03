@@ -9,6 +9,7 @@ from django.views.generic import (
 )
 
 from django.urls import reverse_lazy
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 from .models import Vacina, Campanha, LocalVacinacao
 
@@ -25,7 +26,7 @@ def campanhas(request):
     })
 
 
-class CampanhaCreateView(CreateView):
+class CampanhaCreateView(LoginRequiredMixin, CreateView):
     model = Campanha
     fields = '__all__'
     template_name = 'campanhas/campanha_form.html'
@@ -38,14 +39,14 @@ class CampanhaDetailView(DetailView):
     context_object_name = 'campanha'
 
 
-class CampanhaUpdateView(UpdateView):
+class CampanhaUpdateView(LoginRequiredMixin, UpdateView):
     model = Campanha
     fields = '__all__'
     template_name = 'campanhas/campanha_form.html'
     success_url = reverse_lazy('campanhas:campanhas')
 
 
-class CampanhaDeleteView(DeleteView):
+class CampanhaDeleteView(LoginRequiredMixin, DeleteView):
     model = Campanha
     template_name = 'campanhas/campanha_confirm_delete.html'
     success_url = reverse_lazy('campanhas:campanhas')

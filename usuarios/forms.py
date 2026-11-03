@@ -1,8 +1,24 @@
 
 from django import forms
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from django.contrib.auth.models import User
 from .models import PerfilUsuario
+
+
+class EmailAuthenticationForm(AuthenticationForm):
+    username = forms.CharField(
+        label="E-mail",
+        widget=forms.TextInput(attrs={
+            "class": "form-control",
+            "placeholder": "Digite o e-mail usado no cadastro",
+            "autocomplete": "username",
+            "autofocus": True,
+        })
+    )
+
+    def clean_username(self):
+        username = self.cleaned_data["username"].strip()
+        return username.lower() if "@" in username else username
 
 
 class CadastroForm(UserCreationForm):

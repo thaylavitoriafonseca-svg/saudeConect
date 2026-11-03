@@ -12,11 +12,13 @@
         <p><strong>Endereço:</strong> {{ local.endereco }}</p>
         <p><strong>Cidade:</strong> {{ local.cidade }}</p>
 
-        <a class="botao" style="background:#2d6a4f; color:white;
+        {% if user.is_authenticated %}
+<a class="botao" style="background:#2d6a4f; color:white;
            padding:10px 20px; border-radius:5px; text-decoration:none;"
            href="{% url 'locais:editar_local' local.pk %}">
             Editar
         </a>
+{% endif %}
 
         <a class="botao" style="background:#2d6a4f; color:white;
            padding:10px 20px; border-radius:5px; text-decoration:none;"

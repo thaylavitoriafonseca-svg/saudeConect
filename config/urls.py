@@ -2,6 +2,7 @@
 from django.contrib import admin
 from django.contrib.auth.views import LoginView, LogoutView
 from django.urls import path, include
+from usuarios.forms import EmailAuthenticationForm
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -20,6 +21,7 @@ urlpatterns = [
         'login/',
         LoginView.as_view(
             template_name='usuario/acesso/login.html',
+            authentication_form=EmailAuthenticationForm,
             redirect_authenticated_user=True,
             next_page='web:home',
         ),

@@ -3,6 +3,7 @@ from django.urls import reverse_lazy
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.views.generic.list import ListView
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 from vacinas.forms import VacinaForm
 from vacinas.models import Vacina
@@ -26,21 +27,21 @@ class VacinaDetailView(DetailView):
     context_object_name = 'vacina'
 
 
-class VacinaCreateView(CreateView):
+class VacinaCreateView(LoginRequiredMixin, CreateView):
     model = Vacina
     form_class = VacinaForm
     template_name = 'vacinas/vacina_form.html'
     success_url = reverse_lazy('vacinas:vacinas')
 
 
-class VacinaUpdateView(UpdateView):
+class VacinaUpdateView(LoginRequiredMixin, UpdateView):
     model = Vacina
     form_class = VacinaForm
     template_name = 'vacinas/vacina_form.html'
     success_url = reverse_lazy('vacinas:vacinas')
 
 
-class VacinaDeleteView(DeleteView):
+class VacinaDeleteView(LoginRequiredMixin, DeleteView):
     model = Vacina
     template_name = 'vacinas/vacina_confirm_delete.html'
     success_url = reverse_lazy('vacinas:vacinas')

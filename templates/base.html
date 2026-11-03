@@ -43,9 +43,15 @@
                     Locais
                 </a>
 
-            <a href="{% url 'usuarios:cadastro' %}">
-    Cadastrar
-</a>
+            {% if user.is_authenticated %}
+                <form method="post" action="{% url 'logout' %}">
+                    {% csrf_token %}
+                    <button type="submit">Sair</button>
+                </form>
+            {% else %}
+                <a href="{% url 'login' %}">Entrar</a>
+                <a href="{% url 'usuarios:cadastro' %}">Cadastrar</a>
+            {% endif %}
             </div>
 
         </nav>

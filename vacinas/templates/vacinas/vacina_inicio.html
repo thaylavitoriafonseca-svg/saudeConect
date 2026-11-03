@@ -1,203 +1,417 @@
+
 {% extends 'base.html' %}
 
-{% block title %}Vacinas | Saúde Conectada{% endblock %}
+{% block title %} Vacinas | Saúde Conectada {% endblock %}
 
 {% block content %}
+
 <section class="pagina">
 
     <div class="titulo-pagina">
         <h1>Vacinas</h1>
-        <p>Consulte as vacinas cadastradas no sistema.</p>
     </div>
 
-    <!-- Pesquisa e filtro -->
+    <!-- Filtros e pesquisa -->
     <div class="pesquisa-vacinas">
-        <select id="filtroTipoDose">
+
+        <select id="filtroTipoDose" aria-label="Filtrar por tipo de dose">
             <option value="">Todos os tipos de dose</option>
         </select>
 
         <div class="pesquisa-direita">
-            <input type="text" id="pesquisaVacinas"
-                   placeholder="Buscar vacina">
+            <input
+                type="text"
+                id="pesquisaVacinas"
+                placeholder="Buscar vacina"
+                aria-label="Pesquisar vacinas"
+            >
+
             <button type="button" id="limparPesquisaVacinas">
                 Limpar
             </button>
         </div>
-        <span id="resultadoPesquisaVacinas"></span>
+
+        <span id="resultadoPesquisaVacinas" aria-live="polite"></span>
+
     </div>
 
-    <!-- Cards -->
-    <div class="cards-vacinas">
-        {% for vacina in vacinas %}
+    <!-- Tabela de vacinas -->
+    <div class="tabela-container">
 
-        <article class="card-vacina" data-tipo="{{ vacina.tipo_dose|default:''|escape }}">
-            <i class="bi bi-shield-plus"></i>
-            <span class="tipo-dose">{{ vacina.tipo_dose|default:"Tipo não informado" }}</span>
+        <table class="tabela-vacinas">
 
-            <h2>{{ vacina.nome }}</h2>
-            <p><strong>Fabricante:</strong> {{ vacina.fabricante|default:"Não informado" }}</p>
-            <p><strong>Lote:</strong> {{ vacina.lote|default:"Não informado" }}</p>
+            <thead>
+                <tr>
+                    <th>Vacina</th>
+                    <th>Fabricante</th>
+                    <th>Lote</th>
+                    <th>Tipo de Dose</th>
+                    <th>Descrição</th>
+                    <th class="col-acoes">Ações</th>
+                </tr>
+            </thead>
 
-            <div class="descricao">
-                <strong>Sobre a vacina</strong>
-                <p>{{ vacina.descricao|default:"Nenhuma descrição disponível." }}</p>
-            </div>
+            <tbody>
 
-        </article>
-        {% empty %}
+                {% for vacina in vacinas %}
+                <tr data-vacina>
 
-        <p>Nenhuma vacina cadastrada no momento.</p>
-        {% endfor %}
+                    <td class="col-nome" data-label="Vacina">
+                        {{ vacina.nome }}
+                    </td>
+
+                    <td data-label="Fabricante">
+                        {{ vacina.fabricante }}
+                    </td>
+
+                    <td data-label="Lote">
+                        {{ vacina.lote }}
+                    </td>
+
+                    <td data-label="Tipo de Dose">
+                        {{ vacina.tipo_dose }}
+                    </td>
+
+                    <td data-label="Descrição">
+                        {{ vacina.descricao|default:"-" }}
+                    </td>
+
+                    <td class="col-acoes" data-label="Ações">
+
+                        <a href="{% url 'vacinas:vacina_detail' vacina.pk %}"
+                           class="btn-acao btn-detalhes"
+                           title="Ver detalhes">
+                            <i class="bi bi-eye-fill"></i>
+                        </a>
+
+                        {% if user.is_authenticated %}
+                        <a href="{% url 'vacinas:vacina_update' vacina.pk %}"
+                           class="btn-acao btn-editar"
+                           title="Editar">
+                            <i class="bi bi-pencil-square"></i>
+                        </a>
+
+                        <a href="{% url 'vacinas:vacina_delete' vacina.pk %}"
+                           class="btn-acao btn-excluir"
+                           title="Excluir">
+                            <i class="bi bi-trash3-fill"></i>
+                        </a>
+                        {% endif %}
+
+                    </td>
+
+                </tr>
+
+                {% empty %}
+                <tr class="linha-sem-registros">
+                    <td colspan="6" class="sem-registros">
+                        Nenhuma vacina cadastrada.
+                    </td>
+                </tr>
+                {% endfor %}
+
+                <tr id="semResultados" hidden>
+                    <td colspan="6" class="sem-registros">
+                        Nenhuma vacina encontrada.
+                    </td>
+                </tr>
+
+            </tbody>
+
+        </table>
+
     </div>
 
-    <p id="semResultados" hidden>Nenhuma vacina encontrada.</p>
 </section>
 
+
 <style>
+
+/* Filtros */
+.pesquisa-vacinas {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    width: calc(100% - 166px);
+    margin: 16px auto;
+    box-sizing: border-box;
+}
+
+#filtroTipoDose {
+    flex: 0 0 190px;
+    width: 190px;
+    padding: 10px 12px;
+    border: 1px solid #d5e3d9;
+    border-radius: 8px;
+    background-color: #fff;
+    color: #306d49;
+    font-size: 13px;
+    box-sizing: border-box;
+}
+
+.pesquisa-direita {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 8px;
+    margin-left: auto;
+    min-width: 0;
+}
+
+#pesquisaVacinas {
+    flex: 0 1 300px;
+    width: 300px;
+    max-width: 300px;
+    min-width: 0;
+    padding: 10px 12px;
+    border: 1px solid #d5e3d9;
+    border-radius: 8px;
+    background-color: #fff;
+    font-size: 13px;
+    box-sizing: border-box;
+}
+
+#limparPesquisaVacinas {
+    flex-shrink: 0;
+    padding: 10px 14px;
+    border: none;
+    border-radius: 8px;
+    background-color: #306d49;
+    color: #fff;
+    cursor: pointer;
+}
+
+#limparPesquisaVacinas:hover {
+    background-color: #245638;
+}
+
+#resultadoPesquisaVacinas {
+    font-size: 12px;
+    color: #52745e;
+}
+
+/* Ajustes para tablets */
+@media (min-width: 651px) and (max-width: 1000px) {
+    .pesquisa-vacinas,
+    .tabela-container {
+        width: calc(100% - 48px);
+    }
+}
+@media (max-width: 650px) {
     .pagina {
-        padding: 24px;
+        padding: 18px 14px;
     }
-
+    .titulo-pagina {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 12px;
+        text-align: center;
+    }
     .titulo-pagina h1 {
-        color: #306d49; margin-bottom: 6px;
+        font-size: 26px;
     }
-
-    .titulo-pagina p {
-        color: #52745e;
+    .titulo-pagina .btn-novo {
+        width: 100%;
+        max-width: 260px;
+        box-sizing: border-box;
+        text-align: center;
     }
-
+    /* Filtros */
     .pesquisa-vacinas {
-        display: flex; justify-content: space-between;
-        align-items: center; flex-wrap: wrap; gap: 12px;
-        margin: 20px 0;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 10px;
+        width: 100%;
+        margin: 16px 0;
     }
-
-    .pesquisa-vacinas input, .pesquisa-vacinas select {
-        padding: 10px; border: 1px solid #d5e3d9;
-        border-radius: 8px; background: white;
+    #filtroTipoDose {
+        flex: none;
+        width: 100%;
+        max-width: none;
+        min-height: 42px;
     }
-    .pesquisa-vacinas select {
-        width: 220px;
-    }
-
     .pesquisa-direita {
-        display: flex; gap: 8px;
+        display: flex;
+        width: 100%;
+        gap: 8px;
     }
-
-    .pesquisa-direita input {
-        width: 260px; min-width: 0;
+    #pesquisaVacinas {
+        flex: 1 1 auto;
+        max-width: none;
+        min-height: 42px;
     }
-
-    .pesquisa-direita button {
-        background: #306d49; color: white; border: none;
-        border-radius: 8px; padding: 10px 14px; cursor: pointer;
+    #limparPesquisaVacinas {
+        min-height: 42px;
     }
-
-    .cards-vacinas {
-        display: grid; grid-template-columns: repeat(3, minmax(0, 1fr));
-        gap: 18px;
+    /* Cartões das vacinas */
+    .tabela-container {
+        width: 100%;
+        margin: 16px 0;
+        border-radius: 8px;
     }
-
-    .card-vacina {
-        background: white; padding: 20px; border-radius: 12px;
+    .tabela-vacinas,
+    .tabela-vacinas tbody {
+        display: block;
+        width: 100%;
+    }
+    .tabela-vacinas thead {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+    }
+    .tabela-vacinas tbody tr:not([hidden]) {
+        display: block;
+        margin-bottom: 14px;
+        padding: 8px 14px;
+        background: #fff;
         border: 1px solid #e3eee6;
-        box-shadow: 0 2px 7px #26352d0d;
+        border-radius: 10px;
+        box-shadow: 0 2px 7px rgba(38, 53, 45, 0.05);
     }
-    .card-vacina {
-        display: none;
+    /* Rótulos à esquerda e valores à direita */
+    .tabela-vacinas tbody td:not(.col-acoes):not(.sem-registros) {
+        display: grid;
+        grid-template-columns: 105px minmax(0, 1fr);
+        align-items: center;
+        gap: 10px;
+        width: 100%;
+        padding: 10px 0;
+        border-bottom: 1px solid #edf2ee;
+        box-sizing: border-box;
+        font-size: 13px;
     }
-
-    .card-vacina {
-        color: #43865c; font-size: 25px;
-    }
-
-    .tipo-dose {
-        float: right; background: #eaf6ed; color: #306d49;
-        padding: 5px 9px; border-radius: 20px; font-size: 11px;
-    }
-
-    .card-vacina h2 {
-        color: #306d49; font-size: 20px; margin-top: 16px;
-    }
-    .card-vacina p {
-        color: #526258; font-size: 13px; line-height: 1.5;
-    }
-    .descricao {
-        border-top: 1px solid #e8efe9; padding-top: 12px;
-    }
-    .descricao strong {
+    .tabela-vacinas td:not(.col-acoes)::before {
+        content: attr(data-label);
         color: #306d49;
+        font-weight: 500;
+        text-align: left;
     }
-
-    @media (max-width: 900px) {
-        .cards-vacinas {
-            grid-template-columns: repeat(2, minmax(0, 1fr));
-        }
+    .tabela-vacinas td.col-nome {
+        font-weight: 700;
     }
-    @media (max-width: 650px) {
-        .pagina {
-            padding: 18px 14px;
-        }
-
-        .pesquisa-vacinas {
-            flex-direction: column; align-items: stretch;
-        }
-
-        .pesquisa-vacinas select, .pesquisa-direita {
-            width: 100%; box-sizing: border-box;
-        }
-
-        .pesquisa-direita input {
-            flex: 1; width: 0;
-        }
-
-        .cards-vacinas {
-            grid-template-columns: 1fr;
-        }
+    .tabela-vacinas td.col-nome:not(.col-acoes) {
+        font-size: 13px;
     }
+    /* Área dos botões */
+    .tabela-vacinas tbody td.col-acoes {
+        width: 100%;
+        padding: 12px 0 8px;
+        border: none;
+    }
+    .grupo-acoes {
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        gap: 9px;
+    }
+    .btn-acao {
+        width: 38px;
+        height: 38px;
+    }
+    .tabela-vacinas .sem-registros {
+        display: block;
+        width: 100%;
+        padding: 12px;
+    }
+}
 </style>
 
 <script>
 document.addEventListener("DOMContentLoaded", function () {
-    const cards = [...document.querySelectorAll(".card-vacina")];
+
+    const tabela = document.querySelector(".tabela-vacinas");
     const pesquisa = document.getElementById("pesquisaVacinas");
     const filtro = document.getElementById("filtroTipoDose");
     const limpar = document.getElementById("limparPesquisaVacinas");
     const resultado = document.getElementById("resultadoPesquisaVacinas");
     const semResultados = document.getElementById("semResultados");
 
-    const normalizar = texto => texto.normalize("NFD")
-        .replace(/[\u0300-\u036f]/g, "").toLowerCase().trim();
+    if (!tabela) return;
 
-    [...new Set(cards.map(c => c.dataset.tipo).filter(Boolean))]
-        .forEach(tipo => filtro.add(new Option(tipo, normalizar(tipo))));
+    // Seleciona somente as linhas que possuem vacinas
+    const linhas = [...tabela.querySelectorAll("tbody tr[data-vacina]")];
 
+    // Identifica automaticamente os tipos de dose cadastrados
+    const tipos = new Map();
+
+    linhas.forEach(linha => {
+
+        const colunas = linha.querySelectorAll("td");
+        const tipo = colunas[3].textContent.trim();
+
+        if (tipo && tipo !== "-" && !tipos.has(tipo.toLowerCase())) {
+            tipos.set(tipo.toLowerCase(), tipo);
+        }
+
+    });
+
+    // Atualiza as opções do filtro
+    tipos.forEach((tipo, chave) => {
+        filtro.add(new Option(tipo, chave));
+    });
+
+    // Pesquisa e filtragem
     function filtrar() {
-        const termo = normalizar(pesquisa.value);
+
+        const termo = pesquisa.value.trim().toLowerCase();
+        const tipoSelecionado = filtro.value;
+
         let total = 0;
 
-        cards.forEach(card => {
-            const corresponde = normalizar(card.textContent).includes(termo)
-                && (!filtro.value || normalizar(card.dataset.tipo) === filtro.value);
+        linhas.forEach(linha => {
 
-            card.hidden = !corresponde;
-            if (corresponde) total++;
+            const colunas = linha.querySelectorAll("td");
+
+            const correspondePesquisa =
+                linha.textContent.toLowerCase().includes(termo);
+
+            const correspondeTipo =
+                !tipoSelecionado ||
+                colunas[3].textContent.trim().toLowerCase() === tipoSelecionado;
+
+            const corresponde = correspondePesquisa && correspondeTipo;
+
+            linha.hidden = !corresponde;
+
+            if (corresponde) {
+                total++;
+            }
+
         });
 
-        resultado.textContent = termo || filtro.value
-            ? `${total} vacina(s) encontrada(s)` : "";
-        semResultados.hidden = total > 0 || cards.length === 0;
+        // Exibe mensagem quando não existem resultados
+        semResultados.hidden = total !== 0 || linhas.length === 0;
+
+        // Atualiza a quantidade encontrada
+        resultado.textContent = termo || tipoSelecionado
+            ? total + (total === 1
+                ? " vacina encontrada"
+                : " vacinas encontradas")
+            : "";
+
     }
 
+    // Eventos dos campos
     pesquisa.addEventListener("input", filtrar);
     filtro.addEventListener("change", filtrar);
-    limpar.addEventListener("click", () => {
+
+    // Limpa os filtros
+    limpar.addEventListener("click", function () {
+
         pesquisa.value = "";
         filtro.value = "";
+
         filtrar();
+
     });
+
 });
-
-
 </script>
+
 {% endblock %}

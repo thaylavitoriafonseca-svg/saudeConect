@@ -1,5 +1,4 @@
 {% extends 'base.html' %}
-
 {% block title %} Vacinas | Saúde Conectada {% endblock %}
 {% block content %}
 
@@ -16,7 +15,6 @@
         Cadastrar Vacina
     </a>
 </div>
-
 
 <!-- Pesquisa de vacinas -->
 <div class="pesquisa-vacinas">
@@ -56,6 +54,7 @@
                     <th>Fabricante</th>
                     <th>Lote</th>
                     <th>Tipo de Dose</th>
+                    <th>Descrição</th>
                     <th class="col-acoes">Ações</th>
                 </tr>
             </thead>
@@ -77,6 +76,10 @@
 
         <td data-label="Tipo de Dose">
             {{ vacina.tipo_dose }}
+        </td>
+
+        <td data-label="Descrição">
+            {{ vacina.descricao|default:"-" }}
         </td>
 
         <td class="col-acoes" data-label="Ações">
@@ -113,8 +116,8 @@
         </table>
     </div>
 
-
 </section>
+
 <style>
 .resumo-vacinas {
     display: grid;
@@ -122,11 +125,7 @@
     gap: 14px;
     margin: 18px 0 14px;
     width: calc(100% - 166px);
-    margin-left: auto;
-    margin-right: auto;
-    box-sizing: border-box;
 }
-
 .cartao-resumo-vacinas {
     background: #ffffff;
     color: #306d49;
@@ -134,23 +133,17 @@
     border-radius: 12px;
     padding: 13px 17px;
     min-height: 92px;
-    box-sizing: border-box;
-    box-shadow: 0 2px 7px rgba(38, 53, 45, 0.05);
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
-
 .cartao-resumo-vacinas:hover {
     transform: translateY(-2px);
     box-shadow: 0 5px 13px rgba(38, 53, 45, 0.09);
 }
-
 .cartao-resumo-vacinas i {
     display: block;
     font-size: 20px;
     color: #43865c;
     margin-bottom: 4px;
 }
-
 .cartao-resumo-vacinas h2 {
     margin: 0 0 2px;
     font-size: 26px;
@@ -158,14 +151,11 @@
     font-weight: 600;
     color: #306d49;
 }
-
 .cartao-resumo-vacinas p {
     margin: 0;
     font-size: 12px;
     color: #52745e;
 }
-
-
 .pesquisa-vacinas {
     display: flex;
     justify-content: space-between;
@@ -173,47 +163,36 @@
     gap: 12px;
     width: calc(100% - 166px);
     margin: 16px auto;
-    box-sizing: border-box;
 }
-
 #filtroTipoDose {
     flex: 0 0 190px;
     width: 190px;
     max-width: 190px;
-    margin: 0;
     padding: 10px 12px;
     border: 1px solid #d5e3d9;
     border-radius: 8px;
     background-color: #fff;
     color: #306d49;
     font-size: 13px;
-    box-sizing: border-box;
 }
-
 .pesquisa-direita {
     display: flex;
     justify-content: flex-end;
     align-items: center;
     gap: 8px;
     margin-left: auto;
-    min-width: 0;
 }
-
 #pesquisaVacinas {
     flex: 0 1 300px;
     width: 300px;
     max-width: 300px;
-    min-width: 0;
     padding: 10px 12px;
     border: 1px solid #d5e3d9;
     border-radius: 8px;
     background-color: #fff;
     font-size: 13px;
-    box-sizing: border-box;
 }
-
 #limparPesquisaVacinas {
-    flex-shrink: 0;
     padding: 10px 14px;
     border: none;
     border-radius: 8px;
@@ -221,7 +200,6 @@
     color: #fff;
     cursor: pointer;
 }
-
 /* Ajustes para tablets */
 @media (min-width: 651px) and (max-width: 1000px) {
     .pesquisa-vacinas,
@@ -229,13 +207,10 @@
         width: calc(100% - 48px);
     }
 }
-
-
 @media (max-width: 650px) {
     .pagina {
         padding: 18px 14px;
     }
-
     .titulo-pagina {
         display: flex;
         flex-direction: column;
@@ -243,19 +218,15 @@
         gap: 12px;
         text-align: center;
     }
-
     .titulo-pagina h1 {
-        margin: 0;
         font-size: 26px;
     }
-
     .titulo-pagina .btn-novo {
         width: 100%;
         max-width: 260px;
         box-sizing: border-box;
         text-align: center;
     }
-
     /* Filtros */
     .pesquisa-vacinas {
         flex-direction: column;
@@ -264,46 +235,36 @@
         width: 100%;
         margin: 16px 0;
     }
-
     #filtroTipoDose {
         flex: none;
         width: 100%;
         max-width: none;
         min-height: 42px;
     }
-
     .pesquisa-direita {
         display: flex;
         width: 100%;
         gap: 8px;
-        margin: 0;
     }
-
     #pesquisaVacinas {
         flex: 1 1 auto;
-        width: 0;
         max-width: none;
         min-height: 42px;
     }
-
     #limparPesquisaVacinas {
         min-height: 42px;
     }
-
     /* Cartões das vacinas */
     .tabela-container {
         width: 100%;
         margin: 16px 0;
-        overflow: visible;
         border-radius: 8px;
     }
-
     .tabela-vacinas,
     .tabela-vacinas tbody {
         display: block;
         width: 100%;
     }
-
     .tabela-vacinas thead {
         position: absolute;
         width: 1px;
@@ -312,10 +273,7 @@
         margin: -1px;
         overflow: hidden;
         clip: rect(0, 0, 0, 0);
-        white-space: nowrap;
-        border: 0;
     }
-
     .tabela-vacinas tbody tr:not([hidden]) {
         display: block;
         margin-bottom: 14px;
@@ -325,11 +283,6 @@
         border-radius: 10px;
         box-shadow: 0 2px 7px rgba(38, 53, 45, 0.05);
     }
-
-    .tabela-vacinas tbody tr[hidden] {
-        display: none !important;
-    }
-
     /* Rótulos à esquerda e valores à direita */
     .tabela-vacinas tbody td:not(.col-acoes):not(.sem-registros) {
         display: grid;
@@ -341,56 +294,36 @@
         border-bottom: 1px solid #edf2ee;
         box-sizing: border-box;
         font-size: 13px;
-        text-align: left !important;
-        overflow-wrap: anywhere;
     }
-
     .tabela-vacinas td:not(.col-acoes)::before {
         content: attr(data-label);
         color: #306d49;
         font-weight: 500;
         text-align: left;
     }
-
     .tabela-vacinas td.col-nome {
         font-weight: 700;
     }
-
     .tabela-vacinas td.col-nome:not(.col-acoes) {
         font-size: 13px;
     }
-
     /* Área dos botões */
     .tabela-vacinas tbody td.col-acoes {
         display: block;
         width: 100%;
         padding: 12px 0 8px;
         border: none;
-        text-align: left !important;
-        white-space: normal;
     }
-
-
-
-
-
-
-
-
-
     .grupo-acoes {
         display: flex;
         justify-content: flex-start;
         align-items: center;
         gap: 9px;
     }
-
     .btn-acao {
         width: 38px;
         height: 38px;
-        flex-shrink: 0;
     }
-
     /* Mensagem sem registros */
     .tabela-vacinas tbody tr:has(.sem-registros) {
         display: block;
@@ -398,36 +331,37 @@
         background: #fff;
         border-radius: 8px;
     }
-
     .tabela-vacinas .sem-registros {
         display: block;
         width: 100%;
         padding: 12px;
-        border: none;
-        text-align: center !important;
-        box-sizing: border-box;
-    }
-
-    .tabela-vacinas .sem-registros::before {
-        content: none;
     }
 }
 </style>
 
-
 <script>
 document.addEventListener("DOMContentLoaded", function () {
+
+    // 1. ELEMENTOS DA PÁGINA
+    // Aqui o JavaScript procura os elementos que serão utilizados, que são a tabela de vacinas, a barra de pesquisa, o filtro de tipo de dose,
+    // o botão de limpar e o local onde aparece a quantidade de resultados.
     const tabela = document.querySelector(".tabela-vacinas");
     const pesquisa = document.getElementById("pesquisaVacinas");
     const filtro = document.getElementById("filtroTipoDose");
     const limpar = document.getElementById("limparPesquisaVacinas");
     const resultado = document.getElementById("resultadoPesquisaVacinas");
 
+    // 2. VERIFICAÇÃO DOS ELEMENTOS
+    // Verifica se os elementos necessários existem na página. Se algum estiver faltando, o código para de funcionar para evitar erros.
     if (!tabela || !pesquisa || !filtro || !limpar) return;
 
+    // 3. LINHAS DA TABELA
+    // Pega todas as linhas da tabela que possuem informações sobre as vacinas, ignorando linhas vazias ou que não tenham os dados necessários.
     const linhas = [...tabela.querySelectorAll("tbody tr")]
         .filter(l => l.querySelectorAll("td").length > 1);
 
+    // 4. TIPOS DE DOSE
+    // Percorre as vacinas cadastradas e identifica os tipos de dose. Guarda cada tipo apenas uma vez, para evitar opções repetidas no filtro.
     const tipos = new Map();
 
     linhas.forEach(l => {
@@ -439,12 +373,17 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 
+    // 5. OPÇÕES DO FILTRO
+    // Limpa as opções antigas e adiciona automaticamente os tipos de dose encontrados na tabela, permitindo que o usuário escolha qual deseja ver.
     filtro.length = 1;
 
     tipos.forEach((tipo, chave) => {
         filtro.add(new Option(tipo, chave));
     });
 
+    // 6. PESQUISA E FILTRAGEM
+    // Esta função verifica o que o usuário digitou e qual tipo de dose escolheu. Depois, percorre a tabela e mostra somente as vacinas que correspondem
+    // à pesquisa e ao filtro selecionado.
     function filtrar() {
         const termo = pesquisa.value.trim().toLocaleLowerCase("pt-BR");
         const tipo = filtro.value;
@@ -455,14 +394,20 @@ document.addEventListener("DOMContentLoaded", function () {
             const texto = l.textContent.toLocaleLowerCase("pt-BR");
             const tipoVacina = celulas[3].textContent.trim().toLowerCase();
 
+            // Verifica se a vacina corresponde ao que foi pesquisado e ao tipo de dose selecionado pelo usuário.
             const corresponde = texto.includes(termo)
                 && (!tipo || tipoVacina === tipo);
 
+            // Esconde as vacinas que não correspondem à pesquisa.
             l.hidden = !corresponde;
 
+            // Conta quantas vacinas foram encontradas.
             if (corresponde) total++;
         });
 
+        // 7. RESULTADOS DA PESQUISA
+        // Mostra quantas vacinas foram encontradas depois da pesquisa. Também ajusta a mensagem para "vacina" ou "vacinas".
+        // Se o usuário não pesquisar nem selecionar um filtro, não mostra mensagem.
         if (resultado) {
             resultado.textContent = (termo || tipo)
                 ? total + (total === 1
@@ -472,9 +417,13 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     }
 
+    // 8. ATUALIZAÇÃO AUTOMÁTICA
+    // Quando o usuário digita na pesquisa ou muda o tipo de dose, a função filtrar() é executada automaticamente para atualizar a tabela.
     pesquisa.addEventListener("input", filtrar);
     filtro.addEventListener("change", filtrar);
 
+    // 9. BOTÃO LIMPAR
+    // Quando o usuário clica em limpar, o campo de pesquisa fica vazio, o filtro volta para a opção inicial e todas as vacinas aparecem novamente.
     limpar.addEventListener("click", function () {
         pesquisa.value = "";
         filtro.value = "";

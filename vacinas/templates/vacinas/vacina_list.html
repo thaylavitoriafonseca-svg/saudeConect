@@ -10,7 +10,6 @@
             Consulte e gerencie as vacinas cadastradas.
         </p>
     </div>
-
     <a href="{% url 'vacinas:vacina_create' %}" class="btn-novo">
         Cadastrar Vacina
     </a>
@@ -26,7 +25,6 @@
         <option value="">1° Dose</option>
         <option value="">2° Dose</option>
         <option value="">3° Dose</option>
-
     </select>
 
     <div class="pesquisa-direita">
@@ -34,16 +32,12 @@
             type="text"
             id="pesquisaVacinas"
             placeholder="Buscar vacina"
-            aria-label="Pesquisar vacinas"
-        >
-
+            aria-label="Pesquisar vacinas">
         <button type="button" id="limparPesquisaVacinas">
             Limpar
         </button>
     </div>
-
     <span id="resultadoPesquisaVacinas" aria-live="polite"></span>
-
 </div>
 
     <div class="tabela-container">
@@ -65,19 +59,15 @@
         <td class="col-nome" data-label="Vacina">
             {{ vacina.nome }}
         </td>
-
         <td data-label="Fabricante">
             {{ vacina.fabricante }}
         </td>
-
         <td data-label="Lote">
             {{ vacina.lote }}
         </td>
-
         <td data-label="Tipo de Dose">
             {{ vacina.tipo_dose }}
         </td>
-
         <td data-label="Descrição">
             {{ vacina.descricao|default:"-" }}
         </td>
@@ -89,13 +79,11 @@
                    title="Ver detalhes">
                     <i class="bi bi-eye"></i>
                 </a>
-
                 <a href="{% url 'vacinas:vacina_update' vacina.pk %}"
                    class="btn-acao btn-editar"
                    title="Editar">
                     <i class="bi bi-pencil-square"></i>
                 </a>
-
                 <a href="{% url 'vacinas:vacina_delete' vacina.pk %}"
                    class="btn-acao btn-excluir"
                    title="Excluir">
@@ -111,14 +99,15 @@
         </td>
     </tr>
 {% endfor %}
-
             </tbody>
         </table>
     </div>
-
 </section>
 
 <style>
+
+/* Organiza os cartões de informações em três colunas, com espaçamento entre eles e define a largura e as margens.
+Esses cartões apresentam um resumo das informações das vacinas. */
 .resumo-vacinas {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));

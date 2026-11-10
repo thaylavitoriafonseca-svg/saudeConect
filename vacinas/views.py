@@ -19,11 +19,23 @@ class VacinaListView(ListView):
     template_name = 'vacinas/vacina_list.html'
     context_object_name = 'vacinas'
 
+class VacinaInicioView(ListView):
+    model = Vacina
+    template_name = 'vacinas/vacina_inicio.html'
+    context_object_name = 'vacinas'
+
 
 class VacinaDetailView(DetailView):
     model = Vacina
     template_name = 'vacinas/vacina_detail.html'
     context_object_name = 'vacina'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        context['origem'] = self.request.GET.get('origem', 'admin')
+
+        return context
 
 
 class VacinaCreateView(CreateView):

@@ -12,6 +12,12 @@ urlpatterns = [
     ),
 
     path(
+        'inicio/',
+        views.VacinaInicioView.as_view(),
+        name='vacina_inicio'
+    ),
+
+    path(
         '<int:pk>/',
         views.VacinaDetailView.as_view(),
         name='vacina_detail'

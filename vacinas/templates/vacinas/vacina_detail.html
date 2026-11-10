@@ -42,17 +42,24 @@
 
         <div class="acoes-vacina">
 
-            <a href="{% url 'vacinas:vacina_update' vacina.pk %}">
-                Editar
-            </a>
+            {% if request.GET.origem == 'usuario' %}
 
-            <a href="{% url 'vacinas:vacina_delete' vacina.pk %}" class="excluir">
-                Excluir
-            </a>
+                <a href="{% url 'vacinas:vacina_inicio' %}" class="btn-voltar">
+                    Voltar
+                </a>
 
-            <a href="{% url 'vacinas:vacinas' %}" class="voltar">
-                Voltar
-            </a>
+            {% else %}
+                <a href="{% url 'vacinas:vacina_update' vacina.pk %}" class="btn-editar">
+                    Editar
+                </a>
+                <a href="{% url 'vacinas:vacina_delete' vacina.pk %}" class="btn-excluir">
+                    Excluir
+                </a>
+                <a href="{% url 'vacinas:vacinas' %}" class="btn-voltar">
+                    Voltar
+                </a>
+
+            {% endif %}
 
         </div>
 
@@ -137,6 +144,20 @@
         background: #e5f3e9;
         color: #306d49;
     }
+
+    /* Botão voltar na tela do usuário */
+.btn-voltar-usuario {
+    display: block;
+    width: 100%;
+    text-align: center;
+    box-sizing: border-box;
+    background-color: #306d49;
+    color: #ffffff;
+    padding: 12px 20px;
+    border-radius: 8px;
+    text-decoration: none;
+}
+
 
     @media (max-width: 600px) {
         .detalhes-vacina {

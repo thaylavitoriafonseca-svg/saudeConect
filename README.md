@@ -1,12 +1,12 @@
 ﻿# SaúdeConectada
 
-## 6.1. Nome do Projeto
+## 1. Nome do Projeto
 
 ### SaúdeConectada
 
 ---
 
-## 6.2. Descrição do Projeto
+## 2. Descrição do Projeto
 
 O SaúdeConectada é um sistema web desenvolvido com o objetivo de facilitar
 o acesso da população a informações sobre vacinação.
@@ -22,7 +22,7 @@ pelo sistema.
 
 ---
 
-## 6.3. Tecnologias Utilizadas
+## 3. Tecnologias Utilizadas
 
 As tecnologias utilizadas no desenvolvimento do projeto são:
 
@@ -36,7 +36,7 @@ As tecnologias utilizadas no desenvolvimento do projeto são:
 
 ---
 
-## 6.4. Equipe
+## 4. Equipe
 
 | Integrante | Responsabilidade |
 |---|---|
@@ -47,7 +47,7 @@ As tecnologias utilizadas no desenvolvimento do projeto são:
 
 ---
 
-## 6.5. Apps Django
+## 5. Apps Django
 
 ### principal
 
@@ -74,7 +74,7 @@ os arquivos HTML das páginas do sistema.
 
 ---
 
-## 6.6. Models e Views
+## 6. Models e Views
 
 ### Model Vacina
 
@@ -174,7 +174,7 @@ A tela de login será responsável pelo acesso dos usuários ao sistema.
 
 ---
 
-## 6.7. Arquivos e Responsabilidades
+## 7. Arquivos e Responsabilidades
 
 ### Fabrício Lemos — Locais de Vacinação
 

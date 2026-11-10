@@ -78,6 +78,8 @@
 
                     <td class="col-acoes" data-label="Ações">
 
+                        <!--Identifica que o usuário está acessando os detalhes pela página de consulta. O parâmetro origem=usuario
+                        permite que o vacina_detail.html mostre somente o botão Voltar, ocultando as opções de editar e excluir. -->
                         <a href="{% url 'vacinas:vacina_detail' vacina.pk %}?origem=usuario"
                            class="btn-acao btn-detalhes"
                            title="Ver detalhes">
